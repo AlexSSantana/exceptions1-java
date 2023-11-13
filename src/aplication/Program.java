@@ -21,7 +21,7 @@ public class Program {
 		System.out.print("Check-out date (dd/mm/yyyy): ");
 		Date checkOut = sdf.parse(input.next());
 
-		if (!checkOut.after(checkIn)) {
+		if (checkOut.before(checkIn)) {
 			System.out.println("Error in reservation: check-out date must be after check-in date");
 		} else {
 			Reservation reservation = new Reservation(roomNumber, checkIn, checkOut);
@@ -32,8 +32,20 @@ public class Program {
 			checkIn = sdf.parse(input.next());
 			System.out.print("Check-out date (dd/mm/yyyy): ");
 			checkOut = sdf.parse(input.next());
-			reservation.updatesDates(checkIn, checkOut);
+
+			Date now = new Date();
+			if (checkIn.before(now) || checkOut.before(now)) {
+				System.out.println("Error in reservation: Check-out date must be after check-in date");
+			} else if (checkOut.before(checkIn)) {
+
+			} else {
+				reservation.updatesDates(checkIn, checkOut);
+				System.out.println("Resevertion: " + reservation);
+			}
+
 		}
+
+		input.close();
 	}
 
 }
