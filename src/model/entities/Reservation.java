@@ -9,7 +9,7 @@ public class Reservation {
 	private Integer roomNumber;
 	private Date checkin;
 	private Date checkOut;
-	
+
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	public Reservation() {
@@ -42,23 +42,23 @@ public class Reservation {
 		long diff = checkOut.getTime() - checkin.getTime();
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
-	
-	public void updatesDates(Date checkIn, Date checkOut) {
+
+	public String updatesDates(Date checkIn, Date checkOut) {
+		Date now = new Date();
+		if (checkIn.before(now) || checkOut.before(now)) {
+			return "Error in reservation: Check-out date must be after check-in date";
+		} else if (checkOut.before(checkIn)) {
+			return "Check-out date must be after check-in date";
+		}
 		this.checkin = checkIn;
 		this.checkOut = checkOut;
+		return null;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Room "
-				+ roomNumber
-				+ ", check-in: "
-				+ sdf.format(checkin)
-				+ ", check-out: "
-				+ sdf.format(checkOut)
-				+ ", "
-				+ duration()
-				+ " nights";
+		return "Room " + roomNumber + ", check-in: " + sdf.format(checkin) + ", check-out: " + sdf.format(checkOut)
+				+ ", " + duration() + " nights";
 	}
 
 }
